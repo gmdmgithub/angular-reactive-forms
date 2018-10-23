@@ -12,9 +12,7 @@ export class UserNameValidator{
         return null;
     }
 
-    static shouldBeUnique(control: AbstractControl): 
-        
-    Promise<ValidationErrors | null>  {
+    static shouldBeUnique(control: AbstractControl): Promise<ValidationErrors | null>  {
 
         return new Promise((resolve, reject)=>{
 

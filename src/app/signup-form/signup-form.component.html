@@ -1,4 +1,7 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (submit)="login()">
+    <div class="alert alert-danger" *ngIf="form.errors">
+        Username or passward are invalied
+    </div>
     <div class="form-group">
         <label for="username">Username</label>
         <input 
@@ -6,6 +9,8 @@
             id="username" 
             type="text" 
             class="form-control">
+            <!-- asyng pending ... -->
+        <div *ngIf="username.pending"> Loading data ...</div>
         <div *ngIf="username.touched && username.invalid" class="alert alert-danger">
             <div *ngIf="username.errors.required">User name is required</div>
             <div *ngIf="username.errors.minlength">User length to short ({{ username.errors.minlength.requiredLength }})</div>

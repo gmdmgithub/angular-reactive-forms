@@ -15,13 +15,22 @@ export class SignupFormComponent {
           Validators.minLength(3),
           UserNameValidator.cannotContainSpace 
       ],
-      UserNameValidator.shouldBeUnique),
+      UserNameValidator.shouldBeUnique),//IMPORTANT as a third paramiter async!!
 
     'passward':new FormControl('',Validators.required)
   });
 
   get username(){
     return this.form.get('username');
+  }
+
+  login(){
+
+    // let isValied = authService.login(this.form.value);
+    // if(!isValied){
+      //this.username.setErrors();
+      this.form.setErrors({invaliedLogin:true});
+    // }
   }
 
 }
