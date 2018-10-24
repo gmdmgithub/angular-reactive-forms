@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import { ReturnStatement } from '@angular/compiler';
 import { UserNameValidator } from './username.validator';
 
 @Component({
@@ -10,18 +9,20 @@ import { UserNameValidator } from './username.validator';
 })
 export class SignupFormComponent {
   form = new FormGroup({
-    'username':new FormControl('',[
-          Validators.required,
-          Validators.minLength(3),
-          UserNameValidator.cannotContainSpace 
-      ],
-      UserNameValidator.shouldBeUnique),//IMPORTANT as a third paramiter async!!
+    'account': new FormGroup({
+      'username':new FormControl('',[
+            Validators.required,
+            Validators.minLength(3),
+            UserNameValidator.cannotContainSpace 
+        ],
+        UserNameValidator.shouldBeUnique),//IMPORTANT as a third paramiter async!!
 
-    'passward':new FormControl('',Validators.required)
+      'passward':new FormControl('',Validators.required)
+    })
   });
 
   get username(){
-    return this.form.get('username');
+    return this.form.get('account.username');
   }
 
   login(){

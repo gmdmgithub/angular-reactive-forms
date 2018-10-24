@@ -2,30 +2,32 @@
     <div class="alert alert-danger" *ngIf="form.errors">
         Username or passward are invalied
     </div>
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input 
-            formControlName="username"
-            id="username" 
-            type="text" 
-            class="form-control">
-            <!-- asyng pending ... -->
-        <div *ngIf="username.pending"> Loading data ...</div>
-        <div *ngIf="username.touched && username.invalid" class="alert alert-danger">
-            <div *ngIf="username.errors.required">User name is required</div>
-            <div *ngIf="username.errors.minlength">User length to short ({{ username.errors.minlength.requiredLength }})</div>
-            <div *ngIf="username.errors.cannotContainSpace">Username cannot contain space</div>
-            <div *ngIf="username.errors.shouldBeUnique">Username already exists</div>
+    <div formGroupName="account">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input 
+                formControlName="username"
+                id="username" 
+                type="text" 
+                class="form-control">
+                <!-- asyng pending ... -->
+            <div *ngIf="username.pending"> Loading data ...</div>
+            <div *ngIf="username.touched && username.invalid" class="alert alert-danger">
+                <div *ngIf="username.errors.required">User name is required</div>
+                <div *ngIf="username.errors.minlength">User length to short ({{ username.errors.minlength.requiredLength }})</div>
+                <div *ngIf="username.errors.cannotContainSpace">Username cannot contain space</div>
+                <div *ngIf="username.errors.shouldBeUnique">Username already exists</div>
 
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input 
-            formControlName="passward"
-            id="password" 
-            type="text" 
-            class="form-control">
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+                formControlName="passward"
+                id="password" 
+                type="text" 
+                class="form-control">
+        </div>
     </div>
     <button class="btn btn-primary" type="submit">Sign Up</button>
 </form>
