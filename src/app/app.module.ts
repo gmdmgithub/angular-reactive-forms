@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignupFormComponent
+    SignupFormComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
