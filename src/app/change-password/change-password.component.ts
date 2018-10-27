@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { ChangePasswardValidator } from './change-passward-validator';
+import { ChangePasswordValidator } from './change-passward-validator';
 
 @Component({
   selector: 'app-change-password',
@@ -10,12 +10,12 @@ import { ChangePasswardValidator } from './change-passward-validator';
 export class ChangePasswordComponent {
   passNotMatch = false;
   form = new FormGroup({
-    'old-password': new FormControl('',[Validators.required],ChangePasswardValidator.oldPasswardExists),
+    'old-password': new FormControl('',[Validators.required],ChangePasswordValidator.oldPasswardExists),
     'newPassword': new FormControl ('',[Validators.required, Validators.minLength(7)]),
     'new-pass2': new FormControl ('',[Validators.required, Validators.minLength(7)])
-  });
-  
-  //this.form.setErrors({passNotMatch:false});
+  },
+    ChangePasswordValidator.passwordShoulMatch
+  );
   
   get newPassword(){
     return this.form.get('newPassword');
