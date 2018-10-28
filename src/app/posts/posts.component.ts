@@ -4,6 +4,7 @@ import { PostsService } from '../services/posts.service';
 import { error } from '@angular/compiler/src/util';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
+import { BadImputError } from '../common/bad-input';
 
 
 @Component({
@@ -25,11 +26,14 @@ export class PostsComponent implements OnInit {
         subscribe( (response : any[]) =>{
           this.posts = response;
           console.log(this.posts); 
-      },error=>{
-        alert(error.message)
-        console.log('unexpected error',error);
+      }
+      //now we have AppErrorHandler class
+      // ,error=>{
+      //   alert(error.message)
+      //   console.log('unexpected error',error);
         
-      });
+      // }
+        );
   }
 
   creatNewPost(input:HTMLInputElement){
@@ -42,9 +46,11 @@ export class PostsComponent implements OnInit {
       this.posts.splice(0,0,post);      
       console.log(post);
       
-    },error =>{
-      console.log(error);
-      
+    },
+    (error: AppError) =>{
+      if(error instanceof BadImputError){
+        alert('Bad imput error');
+      } else throw error;
     })
   }
 
@@ -54,10 +60,13 @@ export class PostsComponent implements OnInit {
       .subscribe(response =>{
       console.log(response);
       
-    }, error =>{
-      console.log(error);
-      
-    });
+    },
+    (error: AppError) =>{
+        if(error instanceof NotFoundError){
+          alert('Post already removed or change from the server');
+        } else throw error;
+      }
+    );
   }
 
   deletePost(post){
@@ -83,9 +92,7 @@ export class PostsComponent implements OnInit {
             (error: AppError) =>{
                 if(error instanceof NotFoundError){
                   alert('Post already removed from the server');
-                } else{
-                  console.log(error);                  
-                }
+                } else throw error;
             }
         );
   }
