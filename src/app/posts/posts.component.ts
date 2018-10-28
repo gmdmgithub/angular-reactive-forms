@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PostsService } from '../services/posts.service';
+import { error } from '@angular/compiler/src/util';
+import { AppError } from '../common/app-error';
+import { NotFoundError } from '../common/not-found-error';
 
 
 @Component({
@@ -22,6 +25,10 @@ export class PostsComponent implements OnInit {
         subscribe( (response : any[]) =>{
           this.posts = response;
           console.log(this.posts); 
+      },error=>{
+        alert(error.message)
+        console.log('unexpected error',error);
+        
       });
   }
 
@@ -35,6 +42,9 @@ export class PostsComponent implements OnInit {
       this.posts.splice(0,0,post);      
       console.log(post);
       
+    },error =>{
+      console.log(error);
+      
     })
   }
 
@@ -44,19 +54,39 @@ export class PostsComponent implements OnInit {
       .subscribe(response =>{
       console.log(response);
       
+    }, error =>{
+      console.log(error);
+      
     });
   }
 
   deletePost(post){
     
-    this.service.deletePost(post)
-    .subscribe(response =>{
-      console.log(response);
-      let index = this.posts.indexOf(post);
+    this.service.deletePost(post.id)
+    // this.service.deletePost(392) //to force an error
+        .subscribe(response =>{
+              console.log(response);
+              let index = this.posts.indexOf(post);
 
-      this.posts.splice(index,1);
-      
-    });
+              this.posts.splice(index,1);
+            
+            },
+            // (error: Response) =>{
+              //without AppError
+              // if(error.status === 404){
+              //   alert('Post already removed from the server')
+              //   console.log(error);
+              // }else{
+              //   console.log(error);      
+              // }
+            //} 
+            (error: AppError) =>{
+                if(error instanceof NotFoundError){
+                  alert('Post already removed from the server');
+                } else{
+                  console.log(error);                  
+                }
+            }
+        );
   }
-
 }
