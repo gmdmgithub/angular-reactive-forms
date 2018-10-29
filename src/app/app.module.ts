@@ -9,13 +9,15 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { PostsComponent } from './posts/posts.component';
 import { PostsService } from './services/posts.service';
 import { AppErrorHandler } from './common/app-error-handler';
+import { GithubFollowersComponent } from './github-followers/github-followers.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupFormComponent,
     ChangePasswordComponent,
-    PostsComponent
+    PostsComponent,
+    GithubFollowersComponent
   ],
   imports: [
     BrowserModule,

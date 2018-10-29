@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostsService } from '../services/posts.service';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
-import { BadImputError } from '../common/bad-input';
+import { BadInputError } from "../common/BadInputError";
 
 
 @Component({
@@ -38,8 +38,8 @@ export class PostsComponent implements OnInit {
       //remove item (optimistic transaction)
       this.posts.splice(0,1);
 
-      if(error instanceof BadImputError){
-        alert('Bad imput error');
+      if(error instanceof BadInputError){
+        alert('Bad input error');
       } else throw error;
     })
   }
@@ -60,12 +60,14 @@ export class PostsComponent implements OnInit {
   }
 
   deletePost(post){
-    
+    //optimistic update
+    let index = this.posts.indexOf(post);
+    this.posts.splice(index,1);
+
     this.service.delete(post.id)
-    // this.service.deletePost(392) //to force an error
+    // this.service.delete(392) //to force an error
         .subscribe(() =>{
-              let index = this.posts.indexOf(post);
-              this.posts.splice(index,1);
+             
             },
             // (error: Response) =>{
               //without AppError
@@ -77,6 +79,8 @@ export class PostsComponent implements OnInit {
               // }
             //} 
             (error: AppError) =>{
+                this.posts.splice(index,1,post);
+
                 if(error instanceof NotFoundError){
                   alert('Post already removed from the server');
                 } else throw error;

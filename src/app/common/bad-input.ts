@@ -1,5 +1,5 @@
 import { AppError } from "./app-error";
 
-export class BadImputError extends AppError{
+export class BadInputError extends AppError{
     // constructor
 }

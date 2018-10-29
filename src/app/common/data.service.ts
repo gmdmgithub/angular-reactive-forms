@@ -5,7 +5,7 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
-import { BadImputError } from '../common/bad-input';
+import { BadInputError } from "../common/BadInputError";
 
 @Injectable()
 export class DataService {
@@ -22,7 +22,7 @@ export class DataService {
       catchError(
           (error: Response, caught) => {
               if (error.status === 400) {
-                  return throwError(new BadImputError(error.json()));
+                  return throwError(new BadInputError(error.json()));
               }
               return throwError(new AppError(error));
       }));
