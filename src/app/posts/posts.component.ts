@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { PostsService } from '../services/posts.service';
-import { error } from '@angular/compiler/src/util';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
 import { BadImputError } from '../common/bad-input';
@@ -13,41 +11,33 @@ import { BadImputError } from '../common/bad-input';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-
-  posts: any []=[];
   
-  constructor(private service: PostsService) {
+  posts;
 
-   }
+  constructor(private service: PostsService) { }
   
   ngOnInit() {
-       
-      this.service.getPosts().
-        subscribe( (response : any[]) =>{
-          this.posts = response;
-          console.log(this.posts); 
-      }
-      //now we have AppErrorHandler class
-      // ,error=>{
-      //   alert(error.message)
-      //   console.log('unexpected error',error);
-        
-      // }
-        );
+      this.service.getAll().
+        subscribe(posts => this.posts = posts);
   }
 
   creatNewPost(input:HTMLInputElement){
     let post= {title: input.value};
-    this.service.createNewPost(post)
+    this.posts.splice(0,0,post); //introduce optimistic transaction
+    
+    input.value ='';
+
+    this.service.create(post)
     .subscribe((response : {id:any}) =>{
       //console.log(response);
       post['id'] = response.id;
-      input.value ='';
-      this.posts.splice(0,0,post);      
-      console.log(post);
-      
+      // this.posts.splice(0,0,post);   
     },
     (error: AppError) =>{
+      
+      //remove item (optimistic transaction)
+      this.posts.splice(0,1);
+
       if(error instanceof BadImputError){
         alert('Bad imput error');
       } else throw error;
@@ -56,7 +46,7 @@ export class PostsComponent implements OnInit {
 
   editPost(post){
     
-    this.service.updatePost(post)
+    this.service.updatet(post)
       .subscribe(response =>{
       console.log(response);
       
@@ -71,14 +61,11 @@ export class PostsComponent implements OnInit {
 
   deletePost(post){
     
-    this.service.deletePost(post.id)
+    this.service.delete(post.id)
     // this.service.deletePost(392) //to force an error
-        .subscribe(response =>{
-              console.log(response);
+        .subscribe(() =>{
               let index = this.posts.indexOf(post);
-
               this.posts.splice(index,1);
-            
             },
             // (error: Response) =>{
               //without AppError
