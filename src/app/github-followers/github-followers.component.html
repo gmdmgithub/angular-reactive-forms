@@ -1,3 +1,7 @@
-<p>
-  github-followers works!
-</p>
+<div class="media" *ngFor="let follower of followers">
+    <img class="avatar mr-3" src="{{ follower.avatar_url }}" alt="">
+    <div class="media-body">
+      <h5 class="mt-0"> {{ follower.login }} </h5>
+      <a href="follower.html_url"> {{ follower.html_url }}</a>
+    </div>
+  </div>
