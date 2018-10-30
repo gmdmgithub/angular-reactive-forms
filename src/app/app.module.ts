@@ -33,7 +33,29 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot([
+      {
+        path: '', 
+        component: HomeComponent
+      },
+      {
+        path: 'folowers', 
+        component: GithubFollowersComponent
+      },
+      {
+        path: 'profile/:username', 
+        component: GithubProfileComponent
+      },
+      {
+        path: 'posts', 
+        component: PostsComponent
+      },
+      {
+        path: '**', 
+        component: NotFoundComponent
+      }
+    ])
   ],
   providers: [
     PostsService,
