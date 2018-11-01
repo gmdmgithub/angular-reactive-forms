@@ -40,11 +40,11 @@ import { RouterModule } from '@angular/router';
         component: HomeComponent
       },
       {
-        path: 'folowers', 
+        path: 'followers', 
         component: GithubFollowersComponent
       },
       {
-        path: 'profile/:username', 
+        path: 'followers/:id', 
         component: GithubProfileComponent
       },
       {
